@@ -146,7 +146,7 @@ public class Player_Behaviour : MonoBehaviour
     {
         Vector3 dir = _targetPosition - transform.position;
         dir.Normalize();
-        transform.DOMove(transform.position + dir * 5, 0.2f);
+        rb.DOMove(transform.position + dir * 5, 0.2f);
     }
 
     IEnumerator Dash_Right()
