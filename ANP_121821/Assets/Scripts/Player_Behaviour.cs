@@ -91,6 +91,11 @@ public class Player_Behaviour : MonoBehaviour
             StartCoroutine(Dash_Left());
         }
         /////////////////////////////////////////////////////
+        anim.SetFloat("Falling", rb.velocity.y);
+        if(grounded)
+            anim.SetBool("Grounded", true);
+        else
+            anim.SetBool("Grounded", false);
     }
 
     private void FixedUpdate()
@@ -101,15 +106,16 @@ public class Player_Behaviour : MonoBehaviour
 
     void Jump()
     {
-        anim.SetBool("Jump", true);
-
         if (grounded == true)
         {
+            anim.SetBool("Grounded", true);
             anim.SetBool("Jump", false);
 
             if (Input.GetKey(KeyCode.Space))
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                anim.SetBool("Jump", true);
+                anim.SetBool("Grounded", false);
                 AE_Jump();
             }
         }
@@ -152,7 +158,7 @@ public class Player_Behaviour : MonoBehaviour
     {
         Vector3 dir = targetPosition - transform.position;
         dir.Normalize();
-        transform.DOMove(transform.position + dir * 5, 0.2f);
+        rb.DOMove(transform.position + dir * 5, 0.2f);
         attacking = true;
         anim.SetTrigger("" + combo);
         if(_targetPosition.x < transform.position.x)
