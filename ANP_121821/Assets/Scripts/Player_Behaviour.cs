@@ -30,6 +30,7 @@ public class Player_Behaviour : MonoBehaviour
     SpriteRenderer spr;
     Animator anim;
     AudioSource aud;
+    public AudioClip[] clips;
 
     [Header("Attack")]
     public int combo;
@@ -69,7 +70,7 @@ public class Player_Behaviour : MonoBehaviour
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
             anim.SetBool("Running", false);
-            aud.Stop();
+            //aud.Stop();
         }
         /////////////////////////////////////////////////////
 
@@ -80,13 +81,13 @@ public class Player_Behaviour : MonoBehaviour
             Dash_Attack(targetPosition);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && grounded && spr.flipX == false && CanDash == true)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && spr.flipX == false && CanDash == true)
         {
             CanDash = false;
             anim.SetBool("Dash", true);
             StartCoroutine(Dash_Right());
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && grounded && spr.flipX == true && CanDash == true)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && spr.flipX == true && CanDash == true)
         {
             CanDash = false;
             anim.SetBool("Dash", true);
@@ -128,6 +129,7 @@ public class Player_Behaviour : MonoBehaviour
         rb.velocity = new Vector2(RunSpeed, rb.velocity.y);
         anim.SetBool("Running", true);
 
+        aud.clip = clips[2];
         if (IsMoving && !aud.isPlaying) aud.Play();
         if (!IsMoving || !grounded) aud.Stop();
     }
@@ -137,6 +139,7 @@ public class Player_Behaviour : MonoBehaviour
         rb.velocity = new Vector2(-RunSpeed, rb.velocity.y);
         anim.SetBool("Running", true);
 
+        aud.clip = clips[2];
         if (IsMoving && !aud.isPlaying) aud.Play();
         if (!IsMoving || !grounded) aud.Stop();
     }
@@ -158,12 +161,16 @@ public class Player_Behaviour : MonoBehaviour
 
     public void Dash_Attack(Vector2 _targetPosition)
     {
+        print("Se llamo la función");
         Vector3 dir = targetPosition - transform.position;
         dir.Normalize();
         rb.DOMove(transform.position + dir * 5, 0.2f);
         attacking = true;
+
         anim.SetTrigger("" + combo);
-        if(_targetPosition.x < transform.position.x)
+        aud.PlayOneShot(clips[combo]);
+
+        if (_targetPosition.x < transform.position.x)
         {
             spr.flipX = true;
         }
@@ -210,7 +217,6 @@ public class Player_Behaviour : MonoBehaviour
 
     IEnumerator Dash_Right()
     {
-        //transform.Translate(DashSpeed, 0f, 0f);
         rb.DOMove(new Vector2(transform.position.x + 2, transform.position.y), 0.4f);
         aud.Stop();
         Attackable = false;
@@ -224,7 +230,6 @@ public class Player_Behaviour : MonoBehaviour
 
     IEnumerator Dash_Left()
     {
-        //transform.Translate(-DashSpeed, 0f, 0f);
         rb.DOMove(new Vector2(transform.position.x - 2, transform.position.y), 0.4f);
         aud.Stop();
         Attackable = false;
