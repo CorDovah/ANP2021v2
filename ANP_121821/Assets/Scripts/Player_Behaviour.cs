@@ -53,13 +53,13 @@ public class Player_Behaviour : MonoBehaviour
     void Update()
     {
         //Movement
-        if (Input.GetKey("d") && CanMove == true)
+        if (Input.GetKey(KeyCode.D) && CanMove == true)
         {
             spr.flipX = false;
             IsMoving = true;
             runRight();
         }
-        else if (Input.GetKey("a") && CanMove == true)
+        else if (Input.GetKey(KeyCode.A) && CanMove == true)
         {
             spr.flipX = true;
             IsMoving = true;
@@ -83,11 +83,13 @@ public class Player_Behaviour : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && grounded && spr.flipX == false && CanDash == true)
         {
             CanDash = false;
+            anim.SetBool("Dash", true);
             StartCoroutine(Dash_Right());
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift) && grounded && spr.flipX == true && CanDash == true)
         {
             CanDash = false;
+            anim.SetBool("Dash", true);
             StartCoroutine(Dash_Left());
         }
         /////////////////////////////////////////////////////
@@ -152,7 +154,7 @@ public class Player_Behaviour : MonoBehaviour
     {
         Vector3 dir = targetPosition - transform.position;
         dir.Normalize();
-        transform.DOMove(transform.position + dir * 5, 0.2f);
+        rb.DOMove(transform.position + dir * 5, 0.2f);
         attacking = true;
         anim.SetTrigger("" + combo);
         if(_targetPosition.x < transform.position.x)
@@ -202,10 +204,13 @@ public class Player_Behaviour : MonoBehaviour
 
     IEnumerator Dash_Right()
     {
-        transform.Translate(DashSpeed, 0f, 0f);
+        //transform.Translate(DashSpeed, 0f, 0f);
+        rb.DOMove(new Vector2(transform.position.x + 2, transform.position.y), 0.4f);
         aud.Stop();
         Attackable = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("Dash", false);
+        yield return new WaitForSeconds(0.8f);
         Attackable = true;
         yield return new WaitForSeconds(0.5f);
         CanDash = true;
@@ -213,10 +218,13 @@ public class Player_Behaviour : MonoBehaviour
 
     IEnumerator Dash_Left()
     {
-        transform.Translate(-DashSpeed, 0f, 0f);
+        //transform.Translate(-DashSpeed, 0f, 0f);
+        rb.DOMove(new Vector2(transform.position.x - 2, transform.position.y), 0.4f);
         aud.Stop();
         Attackable = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("Dash", false);
+        yield return new WaitForSeconds(0.8f);
         Attackable = true;
         yield return new WaitForSeconds(0.5f);
         CanDash = true;
