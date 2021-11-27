@@ -15,6 +15,7 @@ public class Player_Behaviour : MonoBehaviour
     public bool Attackable;
     public bool IsMoving;
     private bool CanDash;
+    private bool Fell;
 
     //Variables para detectar el suelo y salto
     [Header("GroundCheck")]
@@ -24,12 +25,17 @@ public class Player_Behaviour : MonoBehaviour
     public bool grounded;
 
     [Header("JumpEffects")]
-    public GameObject m_JumpDust;
+    public GameObject anim_JumpDust;
+    public GameObject anim_LandingDust;
 
     Rigidbody2D rb;
     SpriteRenderer spr;
     Animator anim;
+
+    [Header("Audio")]
+    public AudioClip[] audClip;
     AudioSource aud;
+    
 
     [Header("Attack")]
     public int combo;
@@ -93,11 +99,14 @@ public class Player_Behaviour : MonoBehaviour
             StartCoroutine(Dash_Left());
         }
         /////////////////////////////////////////////////////
+
+        //Fall
         anim.SetFloat("Falling", rb.velocity.y);
         if(grounded)
             anim.SetBool("Grounded", true);
         else
             anim.SetBool("Grounded", false);
+        
     }
 
     private void FixedUpdate()
@@ -108,16 +117,19 @@ public class Player_Behaviour : MonoBehaviour
 
     void Jump()
     {
-        if (grounded == true)
+        if (grounded && !attacking)
         {
             anim.SetBool("Grounded", true);
             anim.SetBool("Jump", false);
+            GetComponent<AudioSource>().clip = audClip[0];
 
             if (Input.GetKey(KeyCode.Space))
             {
+                GetComponent<AudioSource>().clip = audClip[1];
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 anim.SetBool("Jump", true);
                 anim.SetBool("Grounded", false);
+                aud.Play();
                 AE_Jump();
             }
         }
@@ -141,20 +153,28 @@ public class Player_Behaviour : MonoBehaviour
         if (!IsMoving || !grounded) aud.Stop();
     }
 
-    void SpawnDustEffect(GameObject dust, float dustXOffset = 0)
+    void SpawnDustEffect(GameObject dust, float dustXOffset = 0f)
     {
         if (dust != null)
         {
             Vector3 dustSpawnPosition = transform.position + new Vector3(dustXOffset, 0.0f, 0.0f);
             GameObject newDust = Instantiate(dust, dustSpawnPosition, Quaternion.identity) as GameObject;
-            newDust.transform.localScale = newDust.transform.localScale.x * new Vector3(1, 1);
+            newDust.transform.localScale = newDust.transform.localScale.x * new Vector3(1f, 1);
         }
     }
 
     void AE_Jump()
     {
-        SpawnDustEffect(m_JumpDust, 0.2f);
+        if(spr.flipX == true)
+        SpawnDustEffect(anim_JumpDust, 0f);
+        else
+            SpawnDustEffect(anim_JumpDust, 0.2f);
     }
+
+    /*void AE_Landing()
+    {
+        SpawnDustEffect(anim_LandingDust);
+    }*/
 
     public void Dash_Attack(Vector2 _targetPosition)
     {
@@ -163,7 +183,8 @@ public class Player_Behaviour : MonoBehaviour
         rb.DOMove(transform.position + dir * 5, 0.2f);
         attacking = true;
         anim.SetTrigger("" + combo);
-        if(_targetPosition.x < transform.position.x)
+        aud.Play();
+        if (_targetPosition.x < transform.position.x)
         {
             spr.flipX = true;
         }
@@ -171,6 +192,7 @@ public class Player_Behaviour : MonoBehaviour
         {
             spr.flipX = false;
         }
+
     }
 
     public void ActivateSwordCollider1()
@@ -198,8 +220,11 @@ public class Player_Behaviour : MonoBehaviour
         attacking = false;
         if(combo < 2)
         {
+            GetComponent<AudioSource>().clip = audClip[2];
             combo++;
         }
+        else
+            GetComponent<AudioSource>().clip = audClip[2];
     }
 
     public void FinishCombo()

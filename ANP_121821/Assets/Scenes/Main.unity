@@ -680,7 +680,12 @@ MonoBehaviour:
   grdChecker: {fileID: 583770854}
   grdCheckerRad: 0.5
   grounded: 0
-  m_JumpDust: {fileID: 8935918012585647707, guid: 4a4123fbc8b39d441868897a71d2b2b1, type: 3}
+  anim_JumpDust: {fileID: 8935918012585647707, guid: 4a4123fbc8b39d441868897a71d2b2b1, type: 3}
+  anim_LandingDust: {fileID: 9076098953984712191, guid: 0b745be9abb3a6d4dadd8705950196d1, type: 3}
+  audClip:
+  - {fileID: 8300000, guid: 459eabbb89660d2429cf613d36c45bab, type: 3}
+  - {fileID: 8300000, guid: 5a18f2ef7db9f1943bedda13ff85ee89, type: 3}
+  - {fileID: 8300000, guid: 5329b99920a6642409627b29d379aff7, type: 3}
   combo: 0
   attacking: 0
   sword1: {fileID: 1553568539}
@@ -749,7 +754,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07798678, y: 0.09474635}
+  m_Offset: {x: 0.07798678, y: 0.03950578}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -760,7 +765,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0548917, y: 1.2281716}
+  m_Size: {x: 1.0548917, y: 1.3386527}
   m_EdgeRadius: 0
 --- !u!95 &583770859
 Animator:
@@ -795,7 +800,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
