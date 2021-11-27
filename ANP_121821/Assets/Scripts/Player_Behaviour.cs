@@ -34,6 +34,7 @@ public class Player_Behaviour : MonoBehaviour
     [Header("Attack")]
     public int combo;
     public bool attacking;
+    public GameObject sword1, sword2;
     Vector3 targetPosition;
 
     void Start()
@@ -45,6 +46,8 @@ public class Player_Behaviour : MonoBehaviour
 
         Attackable = true;
         CanDash = true;
+
+        sword1.gameObject.SetActive(false);
     }
 
     void Update()
@@ -152,6 +155,34 @@ public class Player_Behaviour : MonoBehaviour
         transform.DOMove(transform.position + dir * 5, 0.2f);
         attacking = true;
         anim.SetTrigger("" + combo);
+        if(_targetPosition.x < transform.position.x)
+        {
+            spr.flipX = true;
+        }
+        else
+        {
+            spr.flipX = false;
+        }
+    }
+
+    public void ActivateSwordCollider1()
+    {
+        sword1.gameObject.SetActive(true);
+    }
+
+    public void DeactiveSwordCollider1()
+    {
+        sword1.gameObject.SetActive(false);
+    }
+
+    public void ActivateSwordCollider2()
+    {
+        sword2.gameObject.SetActive(true);
+    }
+
+    public void DeactiveSwordCollider2()
+    {
+        sword2.gameObject.SetActive(false);
     }
 
     public void StartCombo()
