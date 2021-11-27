@@ -31,6 +31,9 @@ public class Player_Behaviour : MonoBehaviour
     Animator anim;
     AudioSource aud;
 
+    [Header("Attack")]
+    public int combo;
+    public bool attacking;
     Vector3 targetPosition;
 
     void Start()
@@ -142,11 +145,28 @@ public class Player_Behaviour : MonoBehaviour
         SpawnDustEffect(m_JumpDust, 0.2f);
     }
 
-    void Dash_Attack(Vector3 _targetPosition)
+    public void Dash_Attack(Vector2 _targetPosition)
     {
-        Vector3 dir = _targetPosition - transform.position;
+        Vector3 dir = targetPosition - transform.position;
         dir.Normalize();
         transform.DOMove(transform.position + dir * 5, 0.2f);
+        attacking = true;
+        anim.SetTrigger("" + combo);
+    }
+
+    public void StartCombo()
+    {
+        attacking = false;
+        if(combo < 2)
+        {
+            combo++;
+        }
+    }
+
+    public void FinishCombo()
+    {
+        attacking = false;
+        combo = 0;
     }
 
     IEnumerator Dash_Right()

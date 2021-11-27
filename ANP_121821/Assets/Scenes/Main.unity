@@ -679,6 +679,8 @@ MonoBehaviour:
   grdCheckerRad: 0.5
   grounded: 0
   m_JumpDust: {fileID: 8935918012585647707, guid: 4a4123fbc8b39d441868897a71d2b2b1, type: 3}
+  combo: 0
+  attacking: 0
 --- !u!212 &583770857
 SpriteRenderer:
   m_ObjectHideFlags: 0
