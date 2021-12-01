@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WorldColliders
   - Enemy
+  - Sword
   layers:
   - Default
   - TransparentFX
