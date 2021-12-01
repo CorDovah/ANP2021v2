@@ -116,6 +116,8 @@ public class Player_Behaviour : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
             {
+                aud.clip = clips[3];
+                aud.Play();
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 anim.SetBool("Jump", true);
                 anim.SetBool("Grounded", false);
