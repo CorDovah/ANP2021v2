@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] public GameObject player;
+    public Player_Behaviour player;
 
     public int life = 1;
     bool isDead;
@@ -15,19 +15,13 @@ public class Enemy : MonoBehaviour
         life = 1;
     }
 
+    private void Awake()
+    {
+        player = FindObjectOfType<Player_Behaviour>();
+    }
+
     void Update()
     {
-        Vector3 dir = player.transform.position - transform.position;
-
-        if(dir.x > transform.position.x)
-        {
-            turnRight();
-        }
-        else
-        {
-            turnLeft();
-        }
-
 
         if (life == 0)
         {
@@ -41,16 +35,6 @@ public class Enemy : MonoBehaviour
         {
             life -= 1;
         }
-    }
-
-    void turnLeft()
-    {
-        this.transform.localScale = new Vector3(-0.45f, 0.5f, 0f);
-    }
-
-    void turnRight()
-    {
-        this.transform.localScale = new Vector3(0.45f, 0.5f, 0f);
     }
 
     IEnumerator Dead()

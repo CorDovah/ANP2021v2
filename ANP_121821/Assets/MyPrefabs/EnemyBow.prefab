@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2471573559608256097}
   - component: {fileID: 2471573559608256110}
   - component: {fileID: 2471573559608256111}
+  - component: {fileID: 1933453955}
   m_Layer: 11
   m_Name: EnemyBow
   m_TagString: Enemy
@@ -99,8 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b45effb61e37434e8c9151f414a497b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 5674128731984190052, guid: 4f4af3a5a1cf13c4da64e3ab20a3f730, type: 3}
-  target: {x: 0, y: 0, z: 0}
+  player: {fileID: 5674128731984190057, guid: 4f4af3a5a1cf13c4da64e3ab20a3f730, type: 3}
   life: 1
 --- !u!50 &2471573559608256096
 Rigidbody2D:
@@ -264,3 +264,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1933453955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2471573559608256108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227e5356785fecb43b0ea077b0dd8d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

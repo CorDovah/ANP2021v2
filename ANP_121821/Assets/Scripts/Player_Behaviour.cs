@@ -9,6 +9,7 @@ public class Player_Behaviour : MonoBehaviour
     public float RunSpeed;
     public float DashSpeed;
     public float jumpForce = 10f;
+    [HideInInspector] public Vector3 playerPos;
 
     [Header("States")]
     public bool CanMove;
@@ -32,10 +33,19 @@ public class Player_Behaviour : MonoBehaviour
     AudioSource aud;
     public AudioClip[] clips;
 
-    [Header("Attack")]
+    [Header("Attack & Sword Colliders")]
+    public GameObject sword1;
+    public GameObject sword2;
+    public GameObject sword3;
+    public GameObject sword4;
     public int combo;
     public bool attacking;
-    public GameObject sword1, sword2, sword3, sword4, camBoundry, leftPlatform, rightPlatform;
+
+    [Header("Grapple")]
+    public GameObject camBoundry;
+    public GameObject leftPlatform;
+    public GameObject rightPlatform;
+    public GameObject floor;
     GameObject grappleTarget;
     Vector3 targetPosition;
 
@@ -55,6 +65,7 @@ public class Player_Behaviour : MonoBehaviour
 
     void Update()
     {
+        playerPos = this.transform.position;
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
         #region Movement
@@ -89,9 +100,10 @@ public class Player_Behaviour : MonoBehaviour
         #region Grapple
         if (Input.GetKeyDown(KeyCode.Mouse1) && CanGrapple)
         {
+            Debug.Log("Tocando " + grappleTarget);
             CanGrapple = false;
             grappleTarget = hit.collider.gameObject;
-            if (hit.collider.gameObject == camBoundry)
+            if (hit.collider.gameObject == camBoundry || hit.collider.gameObject == floor)
             {
                 transform.position = transform.position;
             }
@@ -186,7 +198,15 @@ public class Player_Behaviour : MonoBehaviour
 
     void AE_Jump()
     {
-        SpawnDustEffect(m_JumpDust, 0.2f);
+        if (spr.flipX)
+        {
+            SpawnDustEffect(m_JumpDust, 0f);
+        }
+        else
+        {
+            SpawnDustEffect(m_JumpDust, 0.2f);
+        }
+
     }
 
     public void Dash_Attack(Vector2 _targetPosition)
@@ -280,7 +300,7 @@ public class Player_Behaviour : MonoBehaviour
 
     IEnumerator Grapple()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(0.1f);
         CanGrapple = true;
     }
 }
