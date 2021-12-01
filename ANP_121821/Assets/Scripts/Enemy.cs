@@ -5,9 +5,10 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Player_Behaviour player;
+    public Collider2D _collider;
 
     public int life = 1;
-    bool isDead;
+    public bool isDead;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        _collider = GetComponent<Collider2D>();
         player = FindObjectOfType<Player_Behaviour>();
     }
 
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Dead()
     {
         isDead = true;
+        _collider.enabled = false;
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }

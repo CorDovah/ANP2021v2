@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5674128731984190057, guid: 4f4af3a5a1cf13c4da64e3ab20a3f730, type: 3}
+  _collider: {fileID: 0}
   life: 1
 --- !u!114 &-6800689815301451165
 MonoBehaviour:
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movSpeed: 1
   playerPos_: {fileID: 0}
-  attackRange: 0
+  attackRange: 0.5
   Attacking: 0
   Attack: 0
 --- !u!50 &2471573559608256096
@@ -197,7 +198,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 459eabbb89660d2429cf613d36c45bab, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0

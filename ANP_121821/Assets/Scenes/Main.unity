@@ -238,6 +238,10 @@ PrefabInstance:
       value: SpawnPointRightD
       objectReference: {fileID: 0}
     - target: {fileID: 1879762043007939602, guid: c85d43800a5892c488c9913f95ff6a2e, type: 3}
+      propertyPath: spawnAgain
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879762043007939602, guid: c85d43800a5892c488c9913f95ff6a2e, type: 3}
       propertyPath: Enemies.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1184,6 +1188,10 @@ PrefabInstance:
       value: SpawnPointLeftD
       objectReference: {fileID: 0}
     - target: {fileID: 1879762043007939602, guid: c85d43800a5892c488c9913f95ff6a2e, type: 3}
+      propertyPath: spawnAgain
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879762043007939602, guid: c85d43800a5892c488c9913f95ff6a2e, type: 3}
       propertyPath: Enemies.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1774,7 +1782,7 @@ GameObject:
   - component: {fileID: 1400898446}
   m_Layer: 0
   m_Name: SwordCollider4
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1923,7 +1931,7 @@ GameObject:
   - component: {fileID: 1754967777}
   m_Layer: 0
   m_Name: SwordCollider3
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1955,7 +1963,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03979388, y: 0}
+  m_Offset: {x: -0.090047956, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1966,7 +1974,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.29863268, y: 0.5821638}
+  m_Size: {x: 0.2801721, y: 0.5821638}
   m_EdgeRadius: 0
 --- !u!1 &1766275514
 GameObject:
