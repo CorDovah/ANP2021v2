@@ -15,8 +15,8 @@ public class Player_Behaviour : MonoBehaviour
     public bool Attackable;
     public bool IsMoving;
     private bool CanDash;
+    private bool CanGrapple;
 
-    //Variables para detectar el suelo y salto
     [Header("GroundCheck")]
     public LayerMask WhatIsGrd;
     public Transform grdChecker;
@@ -35,7 +35,8 @@ public class Player_Behaviour : MonoBehaviour
     [Header("Attack")]
     public int combo;
     public bool attacking;
-    public GameObject sword1, sword2;
+    public GameObject sword1, sword2, sword3, sword4, camBoundry, leftPlatform, rightPlatform;
+    GameObject grappleTarget;
     Vector3 targetPosition;
 
     void Start()
@@ -47,13 +48,16 @@ public class Player_Behaviour : MonoBehaviour
 
         Attackable = true;
         CanDash = true;
+        CanGrapple = true;
 
         sword1.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        //Movement
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        #region Movement
         if (Input.GetKey(KeyCode.D) && CanMove == true)
         {
             spr.flipX = false;
@@ -72,28 +76,52 @@ public class Player_Behaviour : MonoBehaviour
             anim.SetBool("Running", false);
             //aud.Stop();
         }
-        /////////////////////////////////////////////////////
+        #endregion
 
-        //Attack, Grapple & Dash
+        #region Attack
         if (Input.GetKeyDown(KeyCode.Mouse0) && grounded)
         {
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Dash_Attack(targetPosition);
         }
+        #endregion
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && spr.flipX == false && CanDash == true)
+        #region Grapple
+        if (Input.GetKeyDown(KeyCode.Mouse1) && CanGrapple)
+        {
+            CanGrapple = false;
+            grappleTarget = hit.collider.gameObject;
+            if (hit.collider.gameObject == camBoundry)
+            {
+                transform.position = transform.position;
+            }
+            else if((hit.collider.gameObject == leftPlatform) || (hit.collider.gameObject == rightPlatform))
+            {
+                transform.DOMove(new Vector2(grappleTarget.transform.position.x, grappleTarget.transform.position.y + 0.6f), 0.5f);
+            }
+            else
+            {
+                transform.DOMove(grappleTarget.transform.position, 0.5f);
+            }
+            StartCoroutine("Grapple");
+        }
+        #endregion
+
+        #region Dash
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !spr.flipX && CanDash)
         {
             CanDash = false;
             anim.SetBool("Dash", true);
             StartCoroutine(Dash_Right());
         }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && spr.flipX == true && CanDash == true)
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && spr.flipX && CanDash)
         {
             CanDash = false;
             anim.SetBool("Dash", true);
             StartCoroutine(Dash_Left());
         }
-        /////////////////////////////////////////////////////
+        #endregion
+
         anim.SetFloat("Falling", rb.velocity.y);
         if(grounded)
             anim.SetBool("Grounded", true);
@@ -161,7 +189,6 @@ public class Player_Behaviour : MonoBehaviour
 
     public void Dash_Attack(Vector2 _targetPosition)
     {
-        print("Se llamo la función");
         Vector3 dir = targetPosition - transform.position;
         dir.Normalize();
         rb.DOMove(transform.position + dir * 5, 0.2f);
@@ -182,22 +209,30 @@ public class Player_Behaviour : MonoBehaviour
 
     public void ActivateSwordCollider1()
     {
-        sword1.gameObject.SetActive(true);
+        if (spr.flipX)
+            sword3.gameObject.SetActive(true);
+        else
+            sword1.gameObject.SetActive(true);
     }
 
     public void DeactiveSwordCollider1()
     {
         sword1.gameObject.SetActive(false);
+        sword3.gameObject.SetActive(false);
     }
 
     public void ActivateSwordCollider2()
     {
-        sword2.gameObject.SetActive(true);
+        if (spr.flipX)
+            sword4.gameObject.SetActive(true);
+        else
+            sword2.gameObject.SetActive(true);
     }
 
     public void DeactiveSwordCollider2()
     {
         sword2.gameObject.SetActive(false);
+        sword4.gameObject.SetActive(false);
     }
 
     public void StartCombo()
@@ -239,5 +274,11 @@ public class Player_Behaviour : MonoBehaviour
         Attackable = true;
         yield return new WaitForSeconds(0.5f);
         CanDash = true;
+    }
+
+    IEnumerator Grapple()
+    {
+        yield return new WaitForSeconds(5.0f);
+        CanGrapple = true;
     }
 }
