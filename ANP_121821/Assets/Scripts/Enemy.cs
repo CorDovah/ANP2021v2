@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Player_Behaviour player;
-    public Collider2D _collider;
+    Player_Behaviour player;
+    SwordEnemy_Behaviour swEnemy;
+    Collider2D _collider;
+    Rigidbody2D rb;
 
     public int life = 1;
     public bool isDead;
@@ -20,6 +22,8 @@ public class Enemy : MonoBehaviour
     {
         _collider = GetComponent<Collider2D>();
         player = FindObjectOfType<Player_Behaviour>();
+        swEnemy = FindObjectOfType<SwordEnemy_Behaviour>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -41,8 +45,11 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Dead()
     {
+        swEnemy.anim.SetBool("Death", true);
+        swEnemy.canMove = false;
         isDead = true;
         _collider.enabled = false;
+        rb.gravityScale = 0;
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
     }
