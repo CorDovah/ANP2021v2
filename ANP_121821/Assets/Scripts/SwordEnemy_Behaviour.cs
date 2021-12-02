@@ -63,7 +63,7 @@ public class SwordEnemy_Behaviour : MonoBehaviour
             rb.velocity = new Vector2(-movSpeed, 0f);
         }
         else
-            anim.SetBool("walk", false);
+            anim.SetBool("Walk", false);
     }
 
     void _Attack()
