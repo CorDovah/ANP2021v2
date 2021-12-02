@@ -16,6 +16,9 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     public bool Attacking;
     public bool Attack;
     public bool canMove;
+    public GameObject sword1;
+
+    Vector3 rotateLeft, rotateRight;
 
     void Start()
     {
@@ -24,11 +27,14 @@ public class SwordEnemy_Behaviour : MonoBehaviour
         anim = GetComponent<Animator>();
         Attacking = true;
         canMove = true;
+        rotateLeft = new Vector3(-0.45f, 0.5f);
+        rotateRight = new Vector3(0.45f, 0.5f);
     }
 
     private void Awake()
     {
         player = FindObjectOfType<Player_Behaviour>();
+        sword1.SetActive(false);
     }
 
     void Update()
@@ -53,13 +59,13 @@ public class SwordEnemy_Behaviour : MonoBehaviour
         if (transform.position.x < playerPos_.position.x && canMove)
         {
             anim.SetBool("Walk", true);
-            transform.localScale = new Vector2(0.45f, 0.5f);
+            transform.localScale = rotateRight;
             rb.velocity = new Vector2(movSpeed, 0f);
         }
         else if (transform.position.x > playerPos_.position.x && canMove)
         {
             anim.SetBool("Walk", true);
-            transform.localScale = new Vector2(-0.45f, 0.5f);
+            transform.localScale = rotateLeft;
             rb.velocity = new Vector2(-movSpeed, 0f);
         }
         else
@@ -67,10 +73,20 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     }
 
     void _Attack()
-    {  
+    {
         if (Attack)
         {
             anim.SetTrigger("Attack");
-        }
+        } 
+    }
+
+    public void ActivateSwordColliderEnemy()
+    {
+        sword1.SetActive(true);
+    }
+
+    public void DeactivateSwordColliderEnemy()
+    {
+        sword1.SetActive(false);
     }
 }

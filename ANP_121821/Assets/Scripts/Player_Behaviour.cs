@@ -15,9 +15,11 @@ public class Player_Behaviour : MonoBehaviour
     public bool CanMove;
     public bool Attackable;
     public bool IsMoving;
+    public bool isDead;
     private bool CanDash;
-    private bool CanGrapple;
-    [HideInInspector] public bool isDead;
+    private bool CanAttack;
+    private bool CanGrapple;   
+    private bool IsJumping;   
 
     [Header("GroundCheck")]
     public LayerMask WhatIsGrd;
@@ -60,6 +62,7 @@ public class Player_Behaviour : MonoBehaviour
         Attackable = true;
         CanDash = true;
         CanGrapple = true;
+        CanAttack = true;
 
         sword1.gameObject.SetActive(false);
     }
@@ -91,7 +94,7 @@ public class Player_Behaviour : MonoBehaviour
         #endregion
 
         #region Attack
-        if (Input.GetKeyDown(KeyCode.Mouse0) && grounded)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && grounded && CanAttack)
         {
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Dash_Attack(targetPosition);
@@ -110,11 +113,11 @@ public class Player_Behaviour : MonoBehaviour
             }
             else if((hit.collider.gameObject == leftPlatform) || (hit.collider.gameObject == rightPlatform))
             {
-                transform.DOMove(new Vector2(grappleTarget.transform.position.x, grappleTarget.transform.position.y + 0.6f), 0.5f);
+                transform.DOMove(new Vector2(grappleTarget.transform.position.x, grappleTarget.transform.position.y + 0.6f), 1f);
             }
             else
             {
-                transform.DOMove(grappleTarget.transform.position, 0.5f);
+                transform.DOMove(grappleTarget.transform.position, 1f);
             }
             StartCoroutine("Grapple");
         }
@@ -140,11 +143,6 @@ public class Player_Behaviour : MonoBehaviour
             anim.SetBool("Grounded", true);
         else
             anim.SetBool("Grounded", false);
-
-        if(isDead)
-        {
-            StartCoroutine(Death());
-        }
     }
 
     private void FixedUpdate()
@@ -162,13 +160,15 @@ public class Player_Behaviour : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space))
             {
-                aud.clip = clips[3];
-                aud.Play();
+                IsJumping = true;
+                aud.PlayOneShot(clips[3]);
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 anim.SetBool("Jump", true);
                 anim.SetBool("Grounded", false);
                 AE_Jump();
             }
+            else
+                IsJumping = false;
         }
     }
 
@@ -234,6 +234,27 @@ public class Player_Behaviour : MonoBehaviour
             spr.flipX = false;
         }
     }
+
+    /*public void Dash_Attack(Vector2 _targetPosition)
+    {
+        CanAttack = false;
+        Vector3 dir = targetPosition - transform.position;
+        dir.Normalize();
+        rb.DOMove(transform.position + dir * 5, 0.2f);
+        attacking = true;
+
+        anim.SetTrigger("" + combo);
+        aud.PlayOneShot(clips[combo]);
+
+        if (_targetPosition.x < transform.position.x)
+        {
+            spr.flipX = true;
+        }
+        else
+        {
+            spr.flipX = false;
+        }
+    }*/
 
     public void ActivateSwordCollider1()
     {
@@ -308,16 +329,5 @@ public class Player_Behaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         CanGrapple = true;
-    }
-
-    IEnumerator Death()
-    {
-        CanMove = false;
-        CanDash = false;
-        CanGrapple = false;
-        Attackable = false;
-        IsMoving = false;
-        yield return new WaitForSeconds(2f);
-        Time.timeScale = 0;
     }
 }

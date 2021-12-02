@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1336329016668256192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5103079531304846935}
+  - component: {fileID: 9196293191819474148}
+  m_Layer: 11
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5103079531304846935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336329016668256192}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: -0.358, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2471573559608256098}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9196293191819474148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336329016668256192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 379399055d2c7894ab56da483be49fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabBullet: {fileID: 1771118717105285331, guid: a3550f46ef320454abcaf7f5ebaec2d5, type: 3}
 --- !u!1 &2471573559608256108
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,13 +54,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2471573559608256098}
   - component: {fileID: 2471573559608256099}
-  - component: {fileID: 1206444382086547576}
   - component: {fileID: -2867316400773231315}
   - component: {fileID: 2471573559608256096}
   - component: {fileID: 2471573559608256097}
   - component: {fileID: 2471573559608256110}
   - component: {fileID: 2471573559608256111}
-  - component: {fileID: 1933453955}
+  - component: {fileID: 2413287333848077617}
   m_Layer: 11
   m_Name: EnemyBow
   m_TagString: Enemy
@@ -35,7 +78,7 @@ Transform:
   m_LocalPosition: {x: -7.15, y: -3.689, z: 0}
   m_LocalScale: {x: 0.45, y: 0.5, z: 0}
   m_Children:
-  - {fileID: 2652929204356174097}
+  - {fileID: 5103079531304846935}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,7 +122,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: e1fdf1a4ba6958647bcd945873ac6e65, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb3711790d9a7304992355d8f5f9eeae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -90,24 +133,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1206444382086547576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2471573559608256108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227e5356785fecb43b0ea077b0dd8d43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 1313535315155416260, guid: 3d45390e965128c449e08e039414a123, type: 3}
-  projSpawn: {fileID: 2652929204356174097}
-  playerPos_: {fileID: 0}
-  projectileSpeed: 10
-  canShoot: 0
-  isShooting: 0
 --- !u!114 &-2867316400773231315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +309,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1933453955
+--- !u!114 &2413287333848077617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -296,39 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227e5356785fecb43b0ea077b0dd8d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
-  projSpawn: {fileID: 0}
-  playerPos_: {fileID: 0}
-  projectileSpeed: 0
-  canShoot: 0
-  isShooting: 0
---- !u!1 &8650364149141183681
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2652929204356174097}
-  m_Layer: 0
-  m_Name: ArrowSpawnMid
-  m_TagString: Untagged
-  m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2652929204356174097
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8650364149141183681}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.705, y: -0.297, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2471573559608256098}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  playerPos: {fileID: 0}
+  anim: {fileID: 0}
+  canMove: 0
+  attackRange: 5
