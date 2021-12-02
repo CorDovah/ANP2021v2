@@ -19,6 +19,7 @@ public class SwordEnemy_Behaviour : MonoBehaviour
 
     void Start()
     {
+        canMove = true;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         Attacking = true;
