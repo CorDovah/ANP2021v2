@@ -1,54 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BowEnemy_Behaviour : MonoBehaviour
 {
+    [SerializeField] Transform playerPos;
     Player_Behaviour player;
-    [SerializeField] int movSpeed;
-
-    [SerializeField] Transform playerPos_;
-    Rigidbody2D rb;
-
+    Bow bow;
+    public Animator anim;
+    public bool canMove;
     public float attackRange;
-    public bool Attacking;
-    public bool Attack;
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        Attacking = true;
-    }
-
-    private void Awake()
-    {
+        anim = GetComponent<Animator>();
         player = FindObjectOfType<Player_Behaviour>();
+        bow = FindObjectOfType<Bow>();
     }
 
-    void Update()
+    private void Update()
     {
-        playerPos_ = player.gameObject.transform;
+        playerPos = player.gameObject.transform;
+        LookAtPlayer();
 
-        if (Attacking)
-        {
-            ChasePlayer();
-        }
+        float distToPlayer = Vector2.Distance(this.transform.position, player.transform.position);
+        Debug.Log("Distance: " + distToPlayer);
+
+        if (distToPlayer <= attackRange)
+            Shooting();
+        else
+            StopCoroutine("ShootAgain");
     }
 
-    void ChasePlayer()
+    void LookAtPlayer()
     {
-        if (transform.position.x < playerPos_.position.x)
+        if (transform.position.x < playerPos.position.x)
         {
             transform.localScale = new Vector2(0.45f, 0.5f);
         }
-        else if (transform.position.x > playerPos_.position.x)
+        else if (transform.position.x > playerPos.position.x)
         {
             transform.localScale = new Vector2(-0.45f, 0.5f);
         }
     }
 
-    void Shoot()
+    public void Shooting()
     {
+        anim.SetTrigger("Attack");
+        StartCoroutine("ShootAgain");
+    }
 
+    public void Shoot()
+    {
+        bow.Shoot();
+    }
+
+    IEnumerator ShootAgain()
+    {
+        yield return new WaitForSeconds(Random.Range(3.0f, 10.0f));
+        Shooting();
     }
 }
