@@ -5,19 +5,11 @@ using UnityEngine;
 public class BowEnemy_Behaviour : MonoBehaviour
 {
     Player_Behaviour player;
-    [SerializeField] int movSpeed;
-
-    [SerializeField] Transform playerPos_;
-    Rigidbody2D rb;
-
-    public float attackRange;
-    public bool Attacking;
-    public bool Attack;
+    Transform playerPos_;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        Attacking = true;
+
     }
 
     private void Awake()
@@ -25,17 +17,13 @@ public class BowEnemy_Behaviour : MonoBehaviour
         player = FindObjectOfType<Player_Behaviour>();
     }
 
-    void Update()
+    private void Update()
     {
         playerPos_ = player.gameObject.transform;
-
-        if (Attacking)
-        {
-            ChasePlayer();
-        }
+        
     }
 
-    void ChasePlayer()
+    void LookAtPlayer()
     {
         if (transform.position.x < playerPos_.position.x)
         {
@@ -47,8 +35,4 @@ public class BowEnemy_Behaviour : MonoBehaviour
         }
     }
 
-    void Shoot()
-    {
-
-    }
 }

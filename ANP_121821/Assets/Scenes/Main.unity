@@ -597,6 +597,7 @@ MonoBehaviour:
   CanMove: 1
   Attackable: 0
   IsMoving: 0
+  isDead: 0
   WhatIsGrd:
     serializedVersion: 2
     m_Bits: 64

@@ -17,6 +17,7 @@ public class Player_Behaviour : MonoBehaviour
     public bool IsMoving;
     private bool CanDash;
     private bool CanGrapple;
+    [HideInInspector] public bool isDead;
 
     [Header("GroundCheck")]
     public LayerMask WhatIsGrd;
@@ -139,6 +140,11 @@ public class Player_Behaviour : MonoBehaviour
             anim.SetBool("Grounded", true);
         else
             anim.SetBool("Grounded", false);
+
+        if(isDead)
+        {
+            StartCoroutine(Death());
+        }
     }
 
     private void FixedUpdate()
@@ -302,5 +308,16 @@ public class Player_Behaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         CanGrapple = true;
+    }
+
+    IEnumerator Death()
+    {
+        CanMove = false;
+        CanDash = false;
+        CanGrapple = false;
+        Attackable = false;
+        IsMoving = false;
+        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0;
     }
 }
