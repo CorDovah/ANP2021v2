@@ -19,6 +19,11 @@ public class BowEnemy_Behaviour : MonoBehaviour
     private void Start()
     {
         life = 1;
+        canMove = true;
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
+        canMove = true;
     }
 
     private void Awake()
@@ -44,7 +49,7 @@ public class BowEnemy_Behaviour : MonoBehaviour
 
         if (life == 0)
         {
-            StartCoroutine(Dead());
+            StartCoroutine(BowDead());
         }
     }
 
@@ -85,14 +90,14 @@ public class BowEnemy_Behaviour : MonoBehaviour
         Shooting();
     }
 
-    IEnumerator Dead()
+    public IEnumerator BowDead()
     {
-        //anim.SetBool("Death", true);
-        winScript.restCounter(1);
-        canMove = false;
         _collider.enabled = false;
+        //anim.SetBool("Death", true);
+        canMove = false;
         rb.gravityScale = 0;
         yield return new WaitForSeconds(1);
+        winScript.restCounter(1);
         gameObject.SetActive(false);
     }
 }

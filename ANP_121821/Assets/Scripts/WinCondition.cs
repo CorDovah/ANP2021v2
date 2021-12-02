@@ -9,7 +9,6 @@ public class WinCondition : MonoBehaviour
 
     private void Start()
     {
-        counter = 5;
         player = FindObjectOfType<Player_Behaviour>();
     }
 
@@ -18,6 +17,11 @@ public class WinCondition : MonoBehaviour
         if(counter == 0)
         {
             player.hasWon = true;
+        }
+
+        if(player.hasWon)
+        {
+            player.StartCoroutine(player.Win());
         }
     }
 

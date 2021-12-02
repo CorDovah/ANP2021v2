@@ -153,7 +153,7 @@ public class Player_Behaviour : MonoBehaviour
 
         if(isDead)
         {
-            StartCoroutine(Dead());
+            StartCoroutine(PlayerDead());
         }
     }
 
@@ -341,28 +341,27 @@ public class Player_Behaviour : MonoBehaviour
         CanGrapple = true;
     }
 
-    IEnumerator Dead()
+    IEnumerator PlayerDead()
     {
         anim.SetBool("Died", true);
         CanAttack = false;
         CanDash = false;
         CanGrapple = false;
         CanMove = false;
-        grounded = false;
         yield return new WaitForSeconds(2f);
+        grounded = false;
         //Time.timeScale = 0;
         deadMenu.SetActive(true);
     }
 
-    IEnumerator Win()
+    public IEnumerator Win()
     {
-        anim.SetBool("Jump", true);
         CanAttack = false;
         CanDash = false;
         CanGrapple = false;
         CanMove = false;
+        yield return new WaitForSeconds(1f);
         grounded = false;
-        yield return new WaitForSeconds(2f);
         //Time.timeScale = 0;
         winMenu.SetActive(true);
     }

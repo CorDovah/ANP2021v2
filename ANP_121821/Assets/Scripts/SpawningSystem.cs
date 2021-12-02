@@ -40,7 +40,7 @@ public class SpawningSystem : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        WaitForSeconds wait = new WaitForSeconds(1f);
+        WaitForSeconds wait = new WaitForSeconds(Random.Range(3f,5f));
         foreach (var enemy in Enemies)
         {
             Instantiate(enemy, SpawnPos, Quaternion.identity);

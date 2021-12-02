@@ -22,13 +22,11 @@ public class SwordEnemy_Behaviour : MonoBehaviour
 
     [Header("Life")]
     public int life = 1;
-    public bool isDead;
 
     Vector3 rotateLeft, rotateRight;
 
     void Start()
     {
-        isDead = false;
         canMove = true;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -53,7 +51,7 @@ public class SwordEnemy_Behaviour : MonoBehaviour
 
         if (life == 0)
         {
-            StartCoroutine(Dead());
+            StartCoroutine(swordDead());
         }
 
         if (Attacking && distToPlayer > attackRange)
@@ -112,14 +110,14 @@ public class SwordEnemy_Behaviour : MonoBehaviour
         sword1.SetActive(false);
     }
 
-    IEnumerator Dead()
+    public IEnumerator swordDead()
     {
-        winScript.restCounter(1);
+        _collider.enabled = false;
         anim.SetBool("Death", true);
         canMove = false;
-        _collider.enabled = false;
         rb.gravityScale = 0;
         yield return new WaitForSeconds(1);
+        winScript.restCounter(1);
         gameObject.SetActive(false);
     }
 }
