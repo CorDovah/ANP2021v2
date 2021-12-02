@@ -5,7 +5,6 @@ using UnityEngine;
 public class Arrows : MonoBehaviour
 {
     Rigidbody2D rb;
-    bool Hit;
 
     void Awake()
     {
@@ -14,11 +13,6 @@ public class Arrows : MonoBehaviour
 
     void Update()
     {
-        if(Hit)
-        {
-
-        }
-
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }

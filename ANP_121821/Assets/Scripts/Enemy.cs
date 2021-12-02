@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    Player_Behaviour player;
+    /*Player_Behaviour player;
     SwordEnemy_Behaviour swEnemy;
     Collider2D _collider;
     Rigidbody2D rb;
@@ -51,6 +51,6 @@ public class Enemy : MonoBehaviour
         _collider.enabled = false;
         rb.gravityScale = 0;
         yield return new WaitForSeconds(1);
-        Destroy(gameObject);
-    }
+        gameObject.SetActive(false);
+    }*/
 }

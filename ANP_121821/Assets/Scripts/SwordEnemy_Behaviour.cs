@@ -6,9 +6,11 @@ using DG.Tweening;
 public class SwordEnemy_Behaviour : MonoBehaviour
 {
     Player_Behaviour player;
+    WinCondition winScript;
     [SerializeField] int movSpeed;
 
     [SerializeField] Transform playerPos_;
+    Collider2D _collider;
     Rigidbody2D rb;
     public Animator anim;
 
@@ -18,13 +20,19 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     public bool canMove;
     public GameObject sword1;
 
+    [Header("Life")]
+    public int life = 1;
+    public bool isDead;
+
     Vector3 rotateLeft, rotateRight;
 
     void Start()
     {
+        isDead = false;
         canMove = true;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
         Attacking = true;
         canMove = true;
         rotateLeft = new Vector3(-0.45f, 0.5f);
@@ -34,6 +42,7 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<Player_Behaviour>();
+        winScript = FindObjectOfType<WinCondition>();
         sword1.SetActive(false);
     }
 
@@ -41,6 +50,11 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     {
         playerPos_ = player.gameObject.transform;
         float distToPlayer = Vector2.Distance(transform.position, playerPos_.position);
+
+        if (life == 0)
+        {
+            StartCoroutine(Dead());
+        }
 
         if (Attacking && distToPlayer > attackRange)
         {
@@ -51,6 +65,14 @@ public class SwordEnemy_Behaviour : MonoBehaviour
             anim.SetBool("Walk", false);
             Attack = true;
             _Attack();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Sword"))
+        {
+            life -= 1;
         }
     }
 
@@ -88,5 +110,16 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     public void DeactivateSwordColliderEnemy()
     {
         sword1.SetActive(false);
+    }
+
+    IEnumerator Dead()
+    {
+        winScript.restCounter(1);
+        anim.SetBool("Death", true);
+        canMove = false;
+        _collider.enabled = false;
+        rb.gravityScale = 0;
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(false);
     }
 }

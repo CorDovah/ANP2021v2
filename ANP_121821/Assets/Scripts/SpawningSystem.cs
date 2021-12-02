@@ -8,7 +8,6 @@ public class SpawningSystem : MonoBehaviour
     [SerializeField] GameObject[] Enemies;
     public Vector3 SpawnPos;
     [SerializeField] bool spawnAgain;
-    Enemy enemies;
 
     [Header("EnemyVariables")]
     public bool enemiesDead;
@@ -17,7 +16,6 @@ public class SpawningSystem : MonoBehaviour
 
     private void Start()
     {
-        enemies = FindObjectOfType<Enemy>();
         SpawnPos = this.transform.position;
         StartCoroutine("SpawnEnemies");
     }
@@ -25,13 +23,6 @@ public class SpawningSystem : MonoBehaviour
     void Update()
     {
         enemiesAlive = Enemies.Length;
-
-        if(enemies.isDead == true)
-        {
-            enemiesKilled = enemiesKilled + 1;
-        }
-
-        enemiesKilled = enemiesAlive - enemiesKilled;
 
         if (enemiesAlive <= 0)
         {
