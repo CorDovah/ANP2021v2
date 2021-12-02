@@ -14,9 +14,11 @@ public class SwordEnemy_Behaviour : MonoBehaviour
     public float attackRange;
     public bool Attacking;
     public bool Attack;
+    public bool canMove;
 
     void Start()
     {
+        canMove = true;
         rb = GetComponent<Rigidbody2D>();
         Attacking = true;
     }
@@ -43,12 +45,12 @@ public class SwordEnemy_Behaviour : MonoBehaviour
 
     void ChasePlayer()
     {
-        if (transform.position.x < playerPos_.position.x)
+        if (transform.position.x < playerPos_.position.x && canMove)
         {
             transform.localScale = new Vector2(0.45f, 0.5f);
             rb.velocity = new Vector2(movSpeed, 0f);
         }
-        else if (transform.position.x > playerPos_.position.x)
+        else if (transform.position.x > playerPos_.position.x && canMove)
         {
             transform.localScale = new Vector2(-0.45f, 0.5f);
             rb.velocity = new Vector2(-movSpeed, 0f);
